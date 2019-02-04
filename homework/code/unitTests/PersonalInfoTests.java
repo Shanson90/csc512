@@ -1,4 +1,11 @@
-package PACKAGE_NAME;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
-public class PersonalInfoTests {
+class PersonalInfoTests {
+
+    @Test
+    void exampleOne() {
+        PersonalInfo.main();
+    }
+
 }
