@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class MobileServiceProvider {
@@ -26,8 +27,9 @@ public class MobileServiceProvider {
                 total = calcB(mins);
                 break;
         }
-
-        System.out.println("Your total charge is " + total);
+        DecimalFormat df = new DecimalFormat("####.##");
+        String outputTotal = df.format(total);
+        System.out.println("Your total charge is $" + outputTotal);
     }
 
     private static Double calcC(){
