@@ -9,9 +9,9 @@ public class GuessingGame {
     public static void main(String[] args){
         System.out.println("The Guessing Game!");
 
-
         Random randGen = new Random();
         Integer secretNumber = randGen.nextInt(10);
+
         System.out.println("Ok... I'm thinking of a number between 0 and 10.");
         System.out.println("Enter your first guess.");
         Integer guess = keyboard.nextInt();
