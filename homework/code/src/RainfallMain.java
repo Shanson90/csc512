@@ -13,6 +13,11 @@ public class RainfallMain {
         for(int i = 0; i < 12; i++){
             System.out.println(Rainfall.monthNames[i] + " ?");
             rainFallAmounts[i] = Double.parseDouble(keyboard.readLine());
+            if(rainFallAmounts[i] < 0.0){
+                System.out.println("You can't have negative rainfall. Try again.");
+                System.exit(0);
+            }
+
         }
 
         Rainfall rainfall = new Rainfall(rainFallAmounts);
