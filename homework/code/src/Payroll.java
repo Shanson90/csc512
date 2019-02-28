@@ -13,6 +13,10 @@ public class Payroll {
     }
 
     public void setHours(int eId, int hrs) throws Exception{
+        if(hrs < 0){
+            throw new Exception("Hours cannot be negative.");
+        }
+
         int employeeIndex = findEmployeeIndex(eId);
         hours[employeeIndex] = hrs;
     }
