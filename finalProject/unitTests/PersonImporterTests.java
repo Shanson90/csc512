@@ -3,11 +3,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-public class ImporterTests {
+public class PersonImporterTests {
 
     @Test
     void importFirstLine() {
-        Importer importer = new Importer();
-        ArrayList<Person> actualPeople = importer.importPeople();
+        PersonImporter personImporter = new PersonImporter("titanic.csv");
+        personImporter.parsePeople();
     }
 }
