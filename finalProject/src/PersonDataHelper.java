@@ -60,4 +60,9 @@ public class PersonDataHelper {
         }
         return matches;
     }
+
+    public double averageFare(ArrayList<Person> people){
+        double totalFares = totalFares(people);
+        return totalFares / people.size();
+    }
 }

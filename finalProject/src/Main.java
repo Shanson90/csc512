@@ -7,6 +7,10 @@ public class Main {
     static final DecimalFormat intFormat = new DecimalFormat("0");
     static final DecimalFormat percent = new DecimalFormat("0%");
 
+    // helpers to aggregate specific data on arrays of Persons/Families
+    static PersonDataHelper personHelper = new PersonDataHelper();
+    static FamilyDataHelper familyHelper = new FamilyDataHelper();
+
     public static void main(String[] args) throws Exception{
         // Import data into Person Classes
         PersonImporter importer = new PersonImporter("titanic.csv");
@@ -18,14 +22,8 @@ public class Main {
         FamilyFinder famFinder = new FamilyFinder();
         ArrayList<Family> families = famFinder.findAll(sortedPeople);
 
-        // helpers to aggregate specific data on arrays of Persons/Families
-        PersonDataHelper personHelper = new PersonDataHelper();
-        FamilyDataHelper familyHelper = new FamilyDataHelper();
-
         // Avg cost per person for all persons
-        double totalFares = personHelper.totalFares(sortedPeople);
-        double averageFare = totalFares / sortedPeople.size();
-        System.out.println("Average fare per person:  $" + twoDec.format(averageFare));
+        System.out.println("Average fare per person:  $" + twoDec.format(personHelper.averageFare(sortedPeople)));
 
         // Avg cost per person for persons in Families
         double totalFamilyFares = familyHelper.totalFares(families);
@@ -58,13 +56,8 @@ public class Main {
         System.out.println("Thus some statistic about likelihood of death for male/female");
 
         // Avg fare
-        totalFares = personHelper.totalFares(survivors);
-        double averageSurvivorFare = totalFares / survivors.size();
-        System.out.println("\nAverage fare for those that survived: $" + twoDec.format(averageSurvivorFare));
-
-        totalFares = personHelper.totalFares(casualties);
-        averageFare = totalFares / survivors.size();
-        System.out.println("Average fare for those that died: $" + twoDec.format(averageFare));
+        System.out.println("\nAverage fare for those that survived: $" + twoDec.format(personHelper.averageFare(survivors)));
+        System.out.println("Average fare for those that died: $" + twoDec.format(personHelper.averageFare(casualties)));
 
         // Avg survival rate of persons in families
         double familySurvivors = familyHelper.getSurvivors(families).size();
@@ -74,23 +67,49 @@ public class Main {
         double survivorCount = survivors.size();
         System.out.println("\nAverage survival rate for all people: " + percent.format(survivorCount / sortedPeople.size()));
 
-        // Avg survival rate by port
-        double cherbourgSurvivors = personHelper.getPeopleByPortCode(survivors, "C").size();
-        double cherbourgTotal = personHelper.getPeopleByPortCode(sortedPeople, "C").size();
-        System.out.println(cherbourgTotal + " embarked from " + " Cherbourg, but only " +
-                cherbourgSurvivors + " survived ( " + percent.format(cherbourgSurvivors / cherbourgTotal) + " ).");
+        // Avg survival rate and fare by port
 
-        double queenstownSurvivors = personHelper.getPeopleByPortCode(survivors, "Q").size();
-        double queenstownTotal = personHelper.getPeopleByPortCode(sortedPeople, "Q").size();
-        System.out.println(queenstownTotal + " embarked from " + " Cherbourg, but only " +
-                queenstownSurvivors + " survived ( " + percent.format(queenstownSurvivors / queenstownTotal) + " ).");
 
-        double southamptonSurvivors = personHelper.getPeopleByPortCode(survivors, "S").size();
-        double southamptonTotal = personHelper.getPeopleByPortCode(sortedPeople, "S").size();
-        System.out.println(southamptonTotal + " embarked from " + " Cherbourg, but only " +
-                southamptonSurvivors + " survived ( " + percent.format(southamptonSurvivors / southamptonTotal) + " ).");
+        String[] ports = new String[]{"C", "Q", "S"};
+        for(String portCode : ports){
+            ArrayList<Person> portSurvivors = personHelper.getPeopleByPortCode(survivors, portCode);
+            ArrayList<Person> portCasualties = personHelper.getPeopleByPortCode(casualties, portCode);
+            double portTotal = personHelper.getPeopleByPortCode(sortedPeople, portCode).size();
+
+            outputSurvivalData(portTotal, portSurvivors.size(), portCode);
+            outputAverageSurvivalFare(portCode, portSurvivors);
+            outputAverageCasualtyFare(portCode, portCasualties);
+        }
 
         System.out.println("\n============================ Analysis complete! ============================\n");
 
+    }
+
+    static void outputSurvivalData(double totalCount, double survivorCount, String portCode) throws Exception {
+        System.out.println("\n" + intFormat.format(totalCount) + " embarked from " + port(portCode) + ", but only " +
+                intFormat.format(survivorCount) + " survived ( " + percent.format(survivorCount / totalCount) + " ).");
+    }
+
+    static void outputAverageSurvivalFare(String portCode, ArrayList<Person> survivors) throws Exception {
+        System.out.println("The " + port(portCode) + " survivors paid an average fare of $" + twoDec.format(personHelper.averageFare(survivors)) + ".");
+    }
+
+    static void outputAverageCasualtyFare(String portCode, ArrayList<Person> casualties) throws Exception {
+        System.out.println("However the " + port(portCode) + " casualties paid an average fare of $" + twoDec.format(personHelper.averageFare(casualties)) + ".");
+    }
+
+    static String port(String portCode) throws Exception {
+        switch (portCode) {
+            case "C":
+                return "Cherbourg";
+            case "Q":
+                return "Queenstown";
+            case "S":
+                return "Southampton";
+            case "M":
+                return "Port Missing";
+            default:
+                throw new Exception("Unsupported port code " + portCode + " found.");
+        }
     }
 }
