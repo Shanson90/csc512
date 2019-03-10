@@ -108,6 +108,8 @@ class PersonImporter {
             if(fieldsInCurrentRow.get(nameMapping[11]) != null){
                 portCode = (String) fieldsInCurrentRow.get(nameMapping[11]);
                 newPerson.setPort(portCode);
+            }else{
+                newPerson.setPort("M");
             }
 
             people.add(newPerson);

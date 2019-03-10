@@ -14,72 +14,99 @@ public class Person {
     private String portCode;
     private String port;
 
-    Person(int idNum){
+    Person(int idNum) {
         id = idNum;
     }
 
-    void setSurvival(Boolean survival){
+    boolean getSurvival() {
+        return survived;
+    }
+
+    void setSurvival(Boolean survival) {
         survived = survival;
     }
 
-    void setClass(int personClass){
+    void setClass(int personClass) {
         economicClass = personClass;
     }
 
-    void setName(String name){
+    void setName(String name) {
         fullName = name;
     }
 
-    String getLastName(){
+    String getLastName() {
         String[] names = fullName.split(",");
         return names[0];
     }
 
-    String getFirstName(){
+    String getFirstName() {
         String[] names = fullName.split(",");
         return names[1];
     }
 
-    void setSex(boolean male){
+    boolean getSex() {
+        return isMale;
+    }
+
+    void setSex(boolean male) {
         isMale = male;
     }
 
-    void setAge(double newAge){
+    double getAge() {
+        return age;
+    }
+
+    void setAge(double newAge) {
         age = newAge;
     }
 
-    void setSameGenFamily(int members){
+    void setSameGenFamily(int members) {
         sameGenFamilyCount = members;
     }
 
-    void setDiffGenFamily(int members){
+    void setDiffGenFamily(int members) {
         diffGenFamilyCount = members;
     }
 
-    void setTicket(String newTicket){
+    void setTicket(String newTicket) {
         ticket = newTicket;
     }
 
-    void setFare(double newFare){
+    double getFare() {
+        return fare;
+    }
+
+    void setFare(double newFare) {
         fare = newFare;
     }
 
-    void setCabin(String newCabin){
+    void setCabin(String newCabin) {
         cabin = newCabin;
     }
 
-    void setPort(String newPortCode) throws Exception{
+    void setPort(String newPortCode) throws Exception {
         portCode = newPortCode;
 
-        switch (newPortCode){
-            case "C": port = "Cherbourg";
+        switch (newPortCode) {
+            case "C":
+                port = "Cherbourg";
                 break;
-            case "Q": port = "Queenstown";
+            case "Q":
+                port = "Queenstown";
                 break;
-            case "S": port = "Southampton";
+            case "S":
+                port = "Southampton";
                 break;
-            default: throw new Exception("Unsupported port code " + portCode + " found.");
+            case "M":
+                port = "Port Missing";
+                break;
+            default:
+                throw new Exception("Unsupported port code " + portCode + " found.");
         }
+    }
+
+    String getPortCode() {
+        return portCode;
     }
 
 }

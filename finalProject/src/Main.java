@@ -1,6 +1,11 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Main {
+
+    static final DecimalFormat twoDec = new DecimalFormat("0.00");
+    static final DecimalFormat intFormat = new DecimalFormat("0");
+    static final DecimalFormat percent = new DecimalFormat("0%");
 
     public static void main(String[] args) throws Exception{
         // Import data into Person Classes
@@ -20,25 +25,25 @@ public class Main {
         // Avg cost per person for all persons
         double totalFares = personHelper.totalFares(sortedPeople);
         double averageFare = totalFares / sortedPeople.size();
-        System.out.println("Average fare per person:  $" + averageFare);
+        System.out.println("Average fare per person:  $" + twoDec.format(averageFare));
 
         // Avg cost per person for persons in Families
         double totalFamilyFares = familyHelper.totalFares(families);
         double totalFamilyMembers = familyHelper.personCount(families);
         double averageFamilyMemberFare = totalFamilyFares / totalFamilyMembers;
-        System.out.println("Average fare for those traveling with family:  $" + averageFamilyMemberFare);
+        System.out.println("Average fare for those traveling with family:  $" + twoDec.format(averageFamilyMemberFare));
 
         ArrayList<Person> survivors = personHelper.getSurvivors(sortedPeople, true);
         ArrayList<Person> casualties = personHelper.getSurvivors(sortedPeople, false);
 
         // Avg age
         double totalYears = personHelper.totalAges(survivors);
-        double averageAge = totalYears / survivors.size();
-        System.out.println("\nAverage age of those that survived: " + averageAge);
+        double averageAge = totalYears / (personHelper.filterForAgeData(survivors).size());
+        System.out.println("\nAverage age of those that survived: " + intFormat.format(averageAge));
 
         totalYears = personHelper.totalAges(casualties);
-        averageAge = totalYears / survivors.size();
-        System.out.println("Average age of those that died: " + averageAge);
+        averageAge = totalYears / (personHelper.filterForAgeData(casualties).size());
+        System.out.println("Average age of those that died: " + intFormat.format(averageAge));
 
         // Sex
         int maleCount = personHelper.totalBySex(survivors, true);
@@ -55,11 +60,11 @@ public class Main {
         // Avg fare
         totalFares = personHelper.totalFares(survivors);
         double averageSurvivorFare = totalFares / survivors.size();
-        System.out.println("\nAverage fare for those that survived: " + averageSurvivorFare);
+        System.out.println("\nAverage fare for those that survived: $" + twoDec.format(averageSurvivorFare));
 
         totalFares = personHelper.totalFares(casualties);
         averageFare = totalFares / survivors.size();
-        System.out.println("Average fare for those that died: " + averageFare);
+        System.out.println("Average fare for those that died: $" + twoDec.format(averageFare));
 
         // Avg survival rate of persons in families
         double familySurvivors = familyHelper.getSurvivors(families).size();
@@ -67,24 +72,25 @@ public class Main {
         
         // Avg survival rate of persons
         double survivorCount = survivors.size();
-        System.out.println("Average survival rate for all people: " + survivorCount / sortedPeople.size());
+        System.out.println("\nAverage survival rate for all people: " + percent.format(survivorCount / sortedPeople.size()));
 
         // Avg survival rate by port
-        double cherbourgSurvivors = personHelper.getPeopleByPortCode(survivors, 'C').size();
-        double cherbourgTotal = personHelper.getPeopleByPortCode(sortedPeople, 'C').size();
+        double cherbourgSurvivors = personHelper.getPeopleByPortCode(survivors, "C").size();
+        double cherbourgTotal = personHelper.getPeopleByPortCode(sortedPeople, "C").size();
         System.out.println(cherbourgTotal + " embarked from " + " Cherbourg, but only " +
-                cherbourgSurvivors + " survived ( " + cherbourgSurvivors / cherbourgTotal + " ).");
+                cherbourgSurvivors + " survived ( " + percent.format(cherbourgSurvivors / cherbourgTotal) + " ).");
 
-
-        double queenstownSurvivors = personHelper.getPeopleByPortCode(survivors, 'Q').size();
-        double queenstownTotal = personHelper.getPeopleByPortCode(sortedPeople, 'Q').size();
+        double queenstownSurvivors = personHelper.getPeopleByPortCode(survivors, "Q").size();
+        double queenstownTotal = personHelper.getPeopleByPortCode(sortedPeople, "Q").size();
         System.out.println(queenstownTotal + " embarked from " + " Cherbourg, but only " +
-                queenstownSurvivors + " survived ( " + queenstownSurvivors / queenstownTotal + " ).");
+                queenstownSurvivors + " survived ( " + percent.format(queenstownSurvivors / queenstownTotal) + " ).");
 
-        double southamptonSurvivors = personHelper.getPeopleByPortCode(survivors, 'S').size();
-        double southamptonTotal = personHelper.getPeopleByPortCode(sortedPeople, 'S').size();
+        double southamptonSurvivors = personHelper.getPeopleByPortCode(survivors, "S").size();
+        double southamptonTotal = personHelper.getPeopleByPortCode(sortedPeople, "S").size();
         System.out.println(southamptonTotal + " embarked from " + " Cherbourg, but only " +
-                southamptonSurvivors + " survived ( " + southamptonSurvivors / southamptonTotal + " ).");
+                southamptonSurvivors + " survived ( " + percent.format(southamptonSurvivors / southamptonTotal) + " ).");
+
+        System.out.println("\n============================ Analysis complete! ============================\n");
 
     }
 }
