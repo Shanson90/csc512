@@ -30,6 +30,16 @@ public class Person {
         fullName = name;
     }
 
+    String getLastName(){
+        String[] names = fullName.split(",");
+        return names[0];
+    }
+
+    String getFirstName(){
+        String[] names = fullName.split(",");
+        return names[1];
+    }
+
     void setSex(boolean male){
         isMale = male;
     }

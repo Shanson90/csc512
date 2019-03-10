@@ -116,8 +116,24 @@ class PersonImporter {
     }
 
     void sortByLastName() {
-        
+        ArrayList<Person> sortedPeople = new ArrayList<>();
+        sortedPeople.add(people.get(0));
 
+        for(int i = 1; i < people.size(); i++){
+            Person toPlace = people.get(i);
+            boolean addToEnd = true;
+            for(int j = 0; j < sortedPeople.size(); j++){
+                if(toPlace.getLastName().compareTo(sortedPeople.get(j).getLastName()) <= 0){ // 0 = identical, 1 = lastToPlace comes after, -1 = lastToPlace comes before
+                    sortedPeople.add(j, toPlace); // put where it goes in the middle
+                    addToEnd = false;
+                    break;
+                }
+            }
+            if(addToEnd){
+                sortedPeople.add(toPlace); // add to end
+            }
+        }
+        people = sortedPeople;
     }
 
     ArrayList<Person> getPeople() {
