@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
         // Import data into Person Classes
         PersonImporter importer = new PersonImporter("titanic.csv");
         importer.parsePeople();
