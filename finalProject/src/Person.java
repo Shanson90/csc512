@@ -3,7 +3,8 @@ public class Person {
     private int id;
     private boolean survived;
     private int economicClass;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private boolean isMale;
     private double age;
     private int sameGenFamilyCount;
@@ -13,9 +14,14 @@ public class Person {
     private String cabin;
     private String portCode;
     private String port;
+    private boolean inFamily;
 
     Person(int idNum) {
         id = idNum;
+    }
+
+    int getId(){
+        return id;
     }
 
     boolean getSurvival() {
@@ -26,22 +32,26 @@ public class Person {
         survived = survival;
     }
 
-    void setClass(int personClass) {
+    int getPassengerClass(){
+        return economicClass;
+    }
+
+    void setPassengerClass(int personClass) {
         economicClass = personClass;
     }
 
     void setName(String name) {
-        fullName = name;
+        String[] splitNames = name.split(",");
+        firstName = splitNames[1];
+        lastName = splitNames[0];
     }
 
     String getLastName() {
-        String[] names = fullName.split(",");
-        return names[0];
+        return lastName;
     }
 
     String getFirstName() {
-        String[] names = fullName.split(",");
-        return names[1];
+        return firstName;
     }
 
     boolean getSex() {
@@ -60,12 +70,24 @@ public class Person {
         age = newAge;
     }
 
+    int getSameGenFamily(){
+        return sameGenFamilyCount;
+    }
+
     void setSameGenFamily(int members) {
         sameGenFamilyCount = members;
     }
 
+    int getDiffGenFamily(){
+        return diffGenFamilyCount;
+    }
+
     void setDiffGenFamily(int members) {
         diffGenFamilyCount = members;
+    }
+
+    String getTicket(){
+        return ticket;
     }
 
     void setTicket(String newTicket) {
@@ -80,8 +102,16 @@ public class Person {
         fare = newFare;
     }
 
+    String getCabin(){
+        return cabin;
+    }
+
     void setCabin(String newCabin) {
         cabin = newCabin;
+    }
+
+    String getPort(){
+        return port;
     }
 
     void setPort(String newPortCode) throws Exception {
@@ -107,6 +137,14 @@ public class Person {
 
     String getPortCode() {
         return portCode;
+    }
+
+    void setFamilyAssociation(boolean isInFamily){
+        inFamily = isInFamily;
+    }
+
+    boolean getFamilyAssociation(){
+        return inFamily;
     }
 
 }

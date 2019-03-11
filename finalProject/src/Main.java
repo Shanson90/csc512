@@ -12,6 +12,7 @@ public class Main {
     static FamilyDataHelper familyHelper = new FamilyDataHelper();
 
     public static void main(String[] args) throws Exception{
+        System.out.println("\n============================ Titanic Data Analysis ============================");
         // Import data into Person Classes
         PersonImporter importer = new PersonImporter("titanic.csv");
         importer.parsePeople();
@@ -23,7 +24,7 @@ public class Main {
         ArrayList<Family> families = famFinder.findAll(sortedPeople);
 
         // Avg cost per person for all persons
-        System.out.println("Average fare per person:  $" + twoDec.format(personHelper.averageFare(sortedPeople)));
+        System.out.println("\nAverage fare per person:  $" + twoDec.format(personHelper.averageFare(sortedPeople)));
 
         // Avg cost per person for persons in Families
         double totalFamilyFares = familyHelper.totalFares(families);
@@ -52,24 +53,17 @@ public class Main {
         femaleCount = personHelper.totalBySex(casualties, false);
         System.out.println("Of those that died, " + maleCount + " were male and " + femaleCount + " were female.");
 
-        // TODO: Figure out how to present this.
-        System.out.println("Thus some statistic about likelihood of death for male/female");
-
         // Avg fare
         System.out.println("\nAverage fare for those that survived: $" + twoDec.format(personHelper.averageFare(survivors)));
         System.out.println("Average fare for those that died: $" + twoDec.format(personHelper.averageFare(casualties)));
 
-        // Avg survival rate of persons in families
-        double familySurvivors = familyHelper.getSurvivors(families).size();
-        System.out.println("Average survival rate for people traveling with family: " + familySurvivors / totalFamilyMembers);
-        
-        // Avg survival rate of persons
+        // Avg survival rate
         double survivorCount = survivors.size();
         System.out.println("\nAverage survival rate for all people: " + percent.format(survivorCount / sortedPeople.size()));
-
+        double familySurvivors = familyHelper.getSurvivors(families).size();
+        System.out.println("Average survival rate for people traveling with family: " + percent.format(familySurvivors / totalFamilyMembers));
+        
         // Avg survival rate and fare by port
-
-
         String[] ports = new String[]{"C", "Q", "S"};
         for(String portCode : ports){
             ArrayList<Person> portSurvivors = personHelper.getPeopleByPortCode(survivors, portCode);

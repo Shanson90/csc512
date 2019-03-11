@@ -71,7 +71,7 @@ class PersonImporter {
             newPerson.setSurvival(survived);
 
             passengerClass = (int) fieldsInCurrentRow.get(nameMapping[2]);
-            newPerson.setClass(passengerClass);
+            newPerson.setPassengerClass(passengerClass);
 
             fullName = (String) fieldsInCurrentRow.get(nameMapping[3]);
             newPerson.setName(fullName);
